@@ -1,23 +1,23 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>org.jetbrains.plugins.template</id>
-    <name>IntelliJ Platform Plugin Template</name>
-    <vendor>JetBrains</vendor>
+    <id>com.github.vladsoroka.gradledaemonsservices</id>
+    <name>gradle-daemons-services Template</name>
+    <vendor>vladsoroka</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="org.jetbrains.plugins.template.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <toolWindow factoryClass="com.github.vladsoroka.gradledaemonsservices.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+        <listener class="com.github.vladsoroka.gradledaemonsservices.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
     
     <actions>
-        <action class="org.jetbrains.plugins.template.MyAction" id="MyAction">
+        <action class="com.github.vladsoroka.gradledaemonsservices.MyAction" id="MyAction">
             <add-to-group group-id="StructureViewPopupMenu" />
         </action>
     </actions>
