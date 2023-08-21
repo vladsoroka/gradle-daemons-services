@@ -1,8 +1,11 @@
 <idea-plugin>
     <idea-version since-build="222.4554" until-build="233.*" />
     <id>com.github.vladsoroka.gradledaemonsservices</id>
-    <name>Gradle Daemon Services</name>
+    <name>Gradle Daemon Services For Fleet</name>
     <vendor>vladsoroka</vendor>
+    <description>
+        Provides rpc services for Fleet IntelliJ backend to view Gradle Daemons
+    </description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.gradle</depends>
