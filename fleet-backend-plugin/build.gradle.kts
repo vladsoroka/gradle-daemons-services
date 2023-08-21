@@ -1,4 +1,5 @@
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
+import org.jetbrains.intellij.tasks.PublishPluginTask
 
 fun properties(key: String) = providers.gradleProperty(key)
 
@@ -51,6 +52,10 @@ tasks {
     withType<PatchPluginXmlTask> {
         sinceBuild.set(properties("pluginSinceBuild"))
         untilBuild.set(properties("pluginUntilBuild"))
+    }
+
+    withType<PublishPluginTask> {
+        token.set(properties("intellijPublishToken"))
     }
 
     runIde { enabled = false }

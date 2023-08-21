@@ -4,7 +4,7 @@
     <name>Gradle Daemon Services For Fleet</name>
     <vendor>vladsoroka</vendor>
     <description>
-        Provides rpc services for Fleet IntelliJ backend to view Gradle Daemons
+        Exposes services to view and manage Gradle Daemons started by IntelliJ
     </description>
 
     <depends>com.intellij.modules.platform</depends>
