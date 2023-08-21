@@ -1,7 +1,7 @@
 <idea-plugin>
     <idea-version since-build="222.4554" until-build="233.*" />
-    <id>com.github.vladsoroka.gradledaemonsservices</id>
-    <name>Gradle Daemon Services For Fleet</name>
+    <id>com.github.vladsoroka.gradledaemonservices</id>
+    <name>Gradle Daemon Services</name>
     <vendor>vladsoroka</vendor>
     <description>
         Exposes services to view and manage Gradle Daemons started by IntelliJ
