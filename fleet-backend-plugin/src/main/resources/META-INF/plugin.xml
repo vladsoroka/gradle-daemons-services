@@ -1,0 +1,13 @@
+<idea-plugin>
+    <idea-version since-build="222.4554" until-build="233.*" />
+    <id>com.github.vladsoroka.gradledaemonsservices</id>
+    <name>Gradle Daemon Services</name>
+    <vendor>vladsoroka</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.gradle</depends>
+
+    <extensions defaultExtensionNs="fleet.backend">
+        <serviceProvider implementation="com.github.vladsoroka.gradle.daemon.services.FleetGradleDaemonsApiProvider"/>
+    </extensions>
+</idea-plugin>
