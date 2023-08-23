@@ -40,7 +40,8 @@ fleetPlugin {
     }
     backendRequirements {
         intellij {
-            plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
+//            plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
+            plugin("com.github.vladsoroka.gradledaemonservices", "latest")
         }
     }
 }
