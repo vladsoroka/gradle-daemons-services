@@ -2,7 +2,7 @@
 # libraries
 
 # plugins
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 gradleFleetPlugin = "0.2.77"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
 gradleIntelliJPlugin = "1.15.0"
