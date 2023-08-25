@@ -3,14 +3,18 @@
 
 # plugins
 kotlin = "1.9.0"
+kotlinxSerialization = "1.6.0"
 gradleFleetPlugin = "0.2.77"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
 gradleIntelliJPlugin = "1.15.0"
 
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-serialization-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core-jvm", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-json-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json-jvm", version.ref = "kotlinxSerialization" }
 
 [plugins]
 gradleFleetPlugin = { id = "org.jetbrains.fleet-plugin", version.ref = "gradleFleetPlugin" }
 gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

@@ -1,6 +1,7 @@
 plugins {
     id("java")
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.plugin.serialization)
 }
 
 repositories {
@@ -9,6 +10,7 @@ repositories {
 
 dependencies {
     compileOnly(libs.kotlin.stdlib)
+    compileOnly(libs.kotlinx.serialization.json.jvm)
     compileOnly(project(":gradle-daemons-plugin", "rpcJars"))
 }
 
