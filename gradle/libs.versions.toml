@@ -2,7 +2,7 @@
 # libraries
 
 # plugins
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 kotlinxSerialization = "1.6.0"
 gradleFleetPlugin = "0.2.77"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
