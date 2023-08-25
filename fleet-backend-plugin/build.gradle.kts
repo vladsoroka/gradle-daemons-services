@@ -1,3 +1,4 @@
+import org.jetbrains.intellij.tasks.InstrumentCodeTask
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.intellij.tasks.PublishPluginTask
 
@@ -13,15 +14,9 @@ version = properties("pluginVersion").get()
 
 repositories {
     mavenCentral()
-//    maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
+    maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
 }
 
-val fleetBackend by configurations.creating
-configurations {
-    compileOnly {
-        extendsFrom(fleetBackend)
-    }
-}
 val pluginDist by configurations.creating {
     isCanBeResolved = false
 }
@@ -30,8 +25,6 @@ artifacts {
 }
 
 dependencies {
-    val backendLibPath = properties("backendLibPath").get()
-    "fleetBackend"(files("$backendLibPath/product.jar"))
     implementation(project(":gradle-daemons-plugin:protocol"))
 }
 
@@ -56,6 +49,10 @@ tasks {
 
     withType<PublishPluginTask> {
         token.set(properties("intellijPublishToken"))
+    }
+
+    withType<InstrumentCodeTask> {
+        compilerVersion = properties("intellijInstrumentingCompilerVersion")
     }
 
     runIde { enabled = false }

@@ -8,6 +8,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
         gradlePluginPortal()
         maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
         maven("https://packages.jetbrains.team/maven/p/teamcity-rest-client/teamcity-rest-client")
