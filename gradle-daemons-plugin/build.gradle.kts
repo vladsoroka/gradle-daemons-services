@@ -11,7 +11,8 @@ plugins {
     alias(libs.plugins.gradleFleetPlugin)
 }
 
-version = "0.1.0"
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
 
 fleetPlugin {
     id = "gradle-daemons-services"
@@ -40,8 +41,8 @@ fleetPlugin {
     }
     backendRequirements {
         intellij {
-            plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
-//            plugin("com.github.vladsoroka.gradledaemonservices", "")
+//            plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
+            plugin("com.github.vladsoroka.gradledaemonservices", properties("pluginVersion").get())
         }
     }
 }
