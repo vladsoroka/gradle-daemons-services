@@ -1,12 +1,11 @@
 package fleet.gradle.daemons.frontend
 
-import com.jetbrains.rhizomedb.Entity
 import com.jetbrains.rhizomedb.Entrypoint
 import fleet.frontend.actions.actions
 import fleet.frontend.actions.trigger
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.*
-import fleet.frontend.ui.core.RenderEntityEP
+import fleet.frontend.rendering
 import fleet.kernel.ChangeScope
 import fleet.kernel.change
 import fleet.kernel.plugins.register
@@ -38,12 +37,9 @@ fun ChangeScope.gradleDaemons() {
                 }
             }.asArray()
         )
-        RenderEntityEP.register(DaemonsViewEntity::class) {
-            fun NoriaContext.(e: Entity) {
-                renderDaemonsView(e as DaemonsViewEntity)
-            }
+        rendering {
+            toolEntity(DaemonsViewEntity::class, ToolPosition.BottomPanel, NoriaContext::renderDaemonsView)
         }
-        DefaultToolEntityPositionEP.register(DaemonsViewEntity::class) { ToolPosition.BottomPanel }
     }
 }
 

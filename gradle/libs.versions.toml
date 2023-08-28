@@ -4,7 +4,7 @@
 # plugins
 kotlin = "1.9.0"
 kotlinxSerialization = "1.6.0"
-gradleFleetPlugin = "0.2.77"
+gradleFleetPlugin = "0.2.82"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
 #gradleIntelliJPlugin = "1.15.0"
 gradleIntelliJPlugin = "1.15.1-SNAPSHOT"

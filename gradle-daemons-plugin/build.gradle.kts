@@ -15,11 +15,10 @@ group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
 
 fleetPlugin {
-    id = "gradle-daemons-services"
+    id = "gradle.daemon.services"
 
     metadata {
-        vendor = "Vladislav Soroka"
-        readableName = "Gradle Daemons Services"
+        readableName = "Gradle Daemons View"
         description = "Provides actions to view and stop Gradle daemons"
     }
     fleetRuntime {
@@ -44,6 +43,12 @@ fleetPlugin {
 //            plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
             plugin("com.github.vladsoroka.gradledaemonservices", properties("pluginVersion").get())
         }
+    }
+
+    publishing {
+        vendorId = "2d3ab32b-7177-423e-88d4-6359110b278a"
+        token = properties("intellijPublishToken")
+        channel = "stable"
     }
 }
 
