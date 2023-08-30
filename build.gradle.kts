@@ -19,3 +19,8 @@ tasks {
         gradleVersion = properties("gradleVersion").get()
     }
 }
+
+tasks.register("uploadPlugins") {
+    dependsOn(":fleet-backend-plugin:publishPlugin")
+    dependsOn(":gradle-daemons-plugin:uploadPlugin")
+}
