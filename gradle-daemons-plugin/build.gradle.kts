@@ -36,7 +36,7 @@ fleetPlugin {
     }
 
     pluginDependencies {
-        plugin("fleet.gradle")
+//        plugin("fleet.gradle")
     }
     backendRequirements {
         intellij {

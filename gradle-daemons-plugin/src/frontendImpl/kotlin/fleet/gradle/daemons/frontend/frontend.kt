@@ -5,7 +5,7 @@ import fleet.frontend.actions.actions
 import fleet.frontend.actions.trigger
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.*
-import fleet.frontend.rendering
+import fleet.frontend.toolEntityRenderer
 import fleet.kernel.ChangeScope
 import fleet.kernel.change
 import fleet.kernel.plugins.register
@@ -37,9 +37,7 @@ fun ChangeScope.gradleDaemons() {
                 }
             }.asArray()
         )
-        rendering {
-            toolEntity(DaemonsViewEntity::class, ToolPosition.BottomPanel, NoriaContext::renderDaemonsView)
-        }
+        toolEntityRenderer(DaemonsViewEntity::class, ToolPosition.BottomPanel, NoriaContext::renderDaemonsView)
     }
 }
 

@@ -21,6 +21,6 @@ tasks {
 }
 
 tasks.register("uploadPlugins") {
-    dependsOn(":fleet-backend-plugin:publishPlugin")
     dependsOn(":gradle-daemons-plugin:uploadPlugin")
+    dependsOn(":fleet-backend-plugin:publishPlugin")
 }

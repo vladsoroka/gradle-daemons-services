@@ -4,7 +4,7 @@ import fleet.common.services.services
 import fleet.common.topology.ServiceEntity
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.ToolEntity
-import fleet.frontend.ui.core.durableState
+import fleet.frontend.ui.db.durableState
 import fleet.gradle.daemons.common.GradleDaemonsService
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
@@ -17,6 +17,7 @@ import noria.NoriaContext
 import noria.foundation.background
 import noria.foundation.shape.RoundedCornerShape
 import noria.model.Trigger
+import noria.readNonReactive
 import noria.state
 import noria.ui.Modifier
 import noria.ui.components.*
@@ -76,7 +77,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 try {
                     editorState.update { "Loading daemons info ..." }
                     listState.update { emptyList() }
-                    daemonInfos.addAll(rpcCall(daemonsService) { it.listDaemons(showStoppedState.read()) })
+                    daemonInfos.addAll(rpcCall(daemonsService) { it.listDaemons(showStoppedState.readNonReactive()) })
                     listState.update { daemonInfos }
                     val statusText = if (daemonInfos.isEmpty()) "Gradle daemons not found" else ""
                     editorState.update { statusText }
