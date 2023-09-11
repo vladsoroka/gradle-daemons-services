@@ -196,7 +196,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("Idle timeout", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText(daemon.info.idleTimeout ?: "")
+                                    uiText(daemon.info.idleTimeout?.toString() ?: "")
                                 }
                                 hbox {
                                     constrain(preferredWidth = preferredWidth) {
