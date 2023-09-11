@@ -43,8 +43,8 @@ intellij {
 
 tasks {
     withType<PatchPluginXmlTask> {
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
+        sinceBuild.set(properties("backendPluginSinceBuild"))
+        untilBuild.set(properties("backendPluginUntilBuild"))
     }
 
     withType<PublishPluginTask> {

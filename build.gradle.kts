@@ -20,6 +20,11 @@ tasks {
     }
 }
 
+tasks.register("pluginsDist") {
+    dependsOn(":gradle-daemons-plugin:distZip")
+    dependsOn(":fleet-backend-plugin:buildPlugin")
+}
+
 tasks.register("uploadPlugins") {
     dependsOn(":gradle-daemons-plugin:uploadPlugin")
     dependsOn(":fleet-backend-plugin:publishPlugin")
