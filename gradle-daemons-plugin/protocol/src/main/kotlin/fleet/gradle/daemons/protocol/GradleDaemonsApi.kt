@@ -5,20 +5,21 @@ import kotlinx.serialization.Serializable
 
 interface GradleDaemonsApi : FleetApi {
     suspend fun listDaemons(includeStopped: Boolean): List<DaemonInfo>
+    suspend fun stopAll(whenIdle: Boolean = false)
 }
 
 @Serializable
 data class DaemonInfo(
     val pid: Long,
-    val version: String,
+    val version: String?,
     val state: DaemonState,
     val reason: String?,
     val lastBusy: Long,
     val daemonExpirationStatus: DaemonExpirationStatus,
     val daemonOpts: List<String>,
-    val javaHome: String,
-    val idleTimeout: Int,
-    val registryDir: String
+    val javaHome: String?,
+    val idleTimeout: Int?,
+    val registryDir: String?
 )
 
 @Serializable

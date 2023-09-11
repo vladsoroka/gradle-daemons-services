@@ -20,12 +20,21 @@ class FleetGradleDaemonsApiProvider : FleetServiceProvider {
     }
 }
 
+@Suppress("UnstableApiUsage")
 private class BackendGradleDaemonsApi(ws: BackendWorkspace) : WorkspaceAwareApi(ws), GradleDaemonsApi {
     override suspend fun listDaemons(includeStopped: Boolean): List<DaemonInfo> {
-        @Suppress("UnstableApiUsage")
         return GradleDaemonServices.getDaemonsStatus()
             .filter { includeStopped || it.token != null }
             .map { it.toDaemonInfo() }
+    }
+
+    override suspend fun stopAll(whenIdle: Boolean) {
+        if (whenIdle) {
+            GradleDaemonServices.gracefulStopDaemons()
+        }
+        else {
+            GradleDaemonServices.stopDaemons()
+        }
     }
 }
 
@@ -37,10 +46,10 @@ private fun org.jetbrains.plugins.gradle.internal.daemon.DaemonState.toDaemonInf
         reason = reason,
         lastBusy = timestamp,
         daemonExpirationStatus = toDaemonExpirationStatus(daemonExpirationStatus),
-        daemonOpts = daemonOpts,
-        javaHome = javaHome.path,
+        daemonOpts = daemonOpts ?: emptyList(),
+        javaHome = javaHome?.path,
         idleTimeout = idleTimeout,
-        registryDir = registryDir.path
+        registryDir = registryDir?.path
     )
 }
 

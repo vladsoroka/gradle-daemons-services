@@ -2,12 +2,15 @@ package fleet.gradle.daemons.frontend
 
 import fleet.common.services.services
 import fleet.common.topology.ServiceEntity
+import fleet.frontend.actions.kernel
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.ToolEntity
 import fleet.frontend.ui.db.durableState
+import fleet.frontend.ui.db.kernel
 import fleet.gradle.daemons.common.GradleDaemonsService
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
+import fleet.kernel.saga
 import fleet.kernel.withEntities
 import fleet.rpc.client.durable
 import fleet.util.UID
@@ -66,7 +69,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
         "Loading data..."
     }
     val listState = durableState(daemonsViewEntity, "daemonsList#${daemonsViewEntity.eid}") {
-        emptyList<DaemonInfo>()
+        emptyList<DaemonItem>()
     }
     val tick = state { 0 }
     val showStoppedState = state { false }
@@ -78,7 +81,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     editorState.update { "Loading daemons info ..." }
                     listState.update { emptyList() }
                     daemonInfos.addAll(rpcCall(daemonsService) { it.listDaemons(showStoppedState.readNonReactive()) })
-                    listState.update { daemonInfos }
+                    listState.update { daemonInfos.map { DaemonItem(it, daemonsService) } }
                     val statusText = if (daemonInfos.isEmpty()) "Gradle daemons not found" else ""
                     editorState.update { statusText }
                 } catch (t: Throwable) {
@@ -96,11 +99,19 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
             }
             gap(width = 16.dp)
             button("Stop All") {
-
+                for (gradleDaemonsService in gradleDaemonsServices) {
+                    actionContext.kernel.saga(gradleDaemonsService) {
+                        gradleDaemonsService.stopAll()
+                    }
+                }
             }
             gap(width = 8.dp)
             button("Stop All When Idle") {
-
+                for (gradleDaemonsService in gradleDaemonsServices) {
+                    actionContext.kernel.saga(gradleDaemonsService) {
+                        gradleDaemonsService.stopAll(whenIdle = true)
+                    }
+                }
             }
             gap(width = 16.dp)
             checkbox(showStoppedState, "Show Stopped")
@@ -117,19 +128,19 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     selectFirstItem = true,
                     speedSearchOptions = SpeedSearchOptions.Default(filterResults = true)
                 ),
-                textToMatchFn = { it.title() }) { item, opts ->
+                textToMatchFn = { it.info.title() }) { item, opts ->
                 defaultListCell(
                     listItemOpts = opts, cellColors = ::toolItemCellColors,
                     iconRenderer = {
                         val iconKey =
-                            if (item.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
+                            if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
                         vbox(Align.Center, modifier = Modifier.constrain(preferredHeight = 12.dp)) {
                             icon(iconKey, size = DpSize(12.dp, 12.dp))
                         }
                     }
                 ) {
                     trimmedTextLineWithHighlights(
-                        text = item.title(),
+                        text = item.info.title(),
                         textColor = theme[ThemeKeys.Text],
                         matcher = opts.matcher
                     )
@@ -140,7 +151,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     listModel = listModel,
                     modifier = Modifier.background(theme[ThemeKeys.Fill]),
                     renderDetailItem = { daemon ->
-                        val lastBusyDate = dateFormat.format(Date(daemon.lastBusy))
+                        val lastBusyDate = dateFormat.format(Date(daemon.info.lastBusy))
                         vbox(modifier = Modifier.padding(8.dp), align = Align.Stretch) {
                             vbox {
                                 val preferredWidth = 120.dp
@@ -148,13 +159,13 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("PID", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText("${daemon.pid}")
+                                    uiText("${daemon.info.pid}")
                                 }
                                 hbox {
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("Status", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText("${daemon.state}")
+                                    uiText("${daemon.info.state}")
                                 }
                                 hbox {
                                     constrain(preferredWidth = preferredWidth) {
@@ -173,26 +184,26 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("Java home", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText(daemon.javaHome)
+                                    uiText(daemon.info.javaHome ?: "")
                                 }
                                 hbox {
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("Daemons dir", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText(daemon.registryDir)
+                                    uiText(daemon.info.registryDir ?: "")
                                 }
                                 hbox {
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("Idle timeout", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText("${daemon.idleTimeout}")
+                                    uiText(daemon.info.idleTimeout ?: "")
                                 }
                                 hbox {
                                     constrain(preferredWidth = preferredWidth) {
                                         uiText("Daemons options", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
                                     vbox {
-                                        for (opt in daemon.daemonOpts) {
+                                        for (opt in daemon.info.daemonOpts) {
                                             uiText(opt)
                                         }
                                     }
@@ -204,6 +215,8 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
         }
     }
 }
+
+class DaemonItem(val info: DaemonInfo, service: GradleDaemonsService)
 
 private suspend fun <T : ServiceEntity<*>, K> rpcCall(service: T, call: suspend CoroutineScope.(T) -> K): K {
     return withEntities(service) {
@@ -218,5 +231,6 @@ private suspend fun <T : ServiceEntity<*>, K> rpcCall(service: T, call: suspend 
 private val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 private val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
 private fun DaemonInfo.title(): String {
-    return "$pid $state $version, ${timeFormat.format(Date(lastBusy))}"
+    val versionOrEmpty = version ?: ""
+    return "$pid $state ${versionOrEmpty}, ${timeFormat.format(Date(lastBusy))}"
 }
