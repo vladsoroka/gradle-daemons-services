@@ -46,7 +46,6 @@ fleetPlugin {
     }
 
     publishing {
-        vendorId = "2d3ab32b-7177-423e-88d4-6359110b278a"
         token = properties("intellijPublishToken")
         channel = "stable"
     }
