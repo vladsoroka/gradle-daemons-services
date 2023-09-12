@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "runFleet",
+            "type": "gradle",
+            "workingDir": "$PROJECT_DIR$",
+            "tasks": [
+                ":fleet-backend-plugin:buildPlugin", ":gradle-daemons-plugin:runFleet"
+            ],
+            "args": [
+                "-PuseSnapshotVersion"
+            ]
+        }
+    ]
+}

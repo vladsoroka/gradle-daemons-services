@@ -8,9 +8,9 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.gradleIntelliJPlugin)
 }
-
+val useSnapshotVersion: String? by project
+version = properties("pluginVersion").get() + (useSnapshotVersion?.run { "." + System.currentTimeMillis() } ?: "")
 group = properties("pluginGroup").get()
-version = properties("pluginVersion").get()
 
 repositories {
     mavenCentral()
