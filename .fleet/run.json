@@ -10,6 +10,23 @@
             "args": [
                 "-PuseLocalBackendPlugin"
             ]
+        },
+        {
+            "name": "Create Dist",
+            "type": "gradle",
+            "tasks": [
+                "pluginsDist"
+            ],
+        },
+        {
+            "name": "Upload Plugins",
+            "type": "gradle",
+            "tasks": [
+                "uploadPlugins"
+            ],
+            "dependsOn": [
+                "Create Dist"
+            ],
         }
     ]
 }
