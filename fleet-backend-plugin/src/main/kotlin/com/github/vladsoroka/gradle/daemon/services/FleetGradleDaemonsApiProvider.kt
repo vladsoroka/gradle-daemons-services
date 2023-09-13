@@ -8,7 +8,10 @@ import fleet.gradle.daemons.protocol.DaemonExpirationStatus
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
 import fleet.gradle.daemons.protocol.GradleDaemonsApi
+import fleet.util.logging.KLoggers
 import org.jetbrains.plugins.gradle.internal.daemon.GradleDaemonServices
+
+private val logger by lazy { KLoggers.logger(FleetGradleDaemonsApiProvider::class) }
 
 class FleetGradleDaemonsApiProvider : FleetServiceProvider {
     override fun getServices(workspace: BackendWorkspace): List<FleetServiceDescriptor> {
@@ -23,6 +26,7 @@ class FleetGradleDaemonsApiProvider : FleetServiceProvider {
 @Suppress("UnstableApiUsage")
 private class BackendGradleDaemonsApi(ws: BackendWorkspace) : WorkspaceAwareApi(ws), GradleDaemonsApi {
     override suspend fun listDaemons(includeStopped: Boolean): List<DaemonInfo> {
+        logger.trace { "Daemons list request..." }
         return GradleDaemonServices.getDaemonsStatus()
             .filter { includeStopped || it.token != null }
             .map { it.toDaemonInfo() }
@@ -30,9 +34,11 @@ private class BackendGradleDaemonsApi(ws: BackendWorkspace) : WorkspaceAwareApi(
 
     override suspend fun stopAll(whenIdle: Boolean) {
         if (whenIdle) {
+            logger.trace { "Graceful stop all daemons request..." }
             GradleDaemonServices.gracefulStopDaemons()
         }
         else {
+            logger.trace { "Stop all daemons request..." }
             GradleDaemonServices.stopDaemons()
         }
     }

@@ -14,6 +14,8 @@ plugins {
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
 
+val useLocalBackendPlugin: String? by project
+
 fleetPlugin {
     id = "gradle.daemon.services"
 
@@ -40,8 +42,11 @@ fleetPlugin {
     }
     backendRequirements {
         intellij {
-//            plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
-            plugin("com.github.vladsoroka.gradledaemonservices", properties("pluginVersion").get())
+            if (useLocalBackendPlugin != null) {
+                plugin(project(":fleet-backend-plugin", "pluginDist")) // reference local IJ plugin Gradle project
+            } else {
+                plugin("com.github.vladsoroka.gradledaemonservices", properties("pluginVersion").get())
+            }
         }
     }
 
@@ -54,4 +59,16 @@ fleetPlugin {
 val rpcJars by configurations.creating
 dependencies {
     "rpcJars"(files(configurations["commonApi-plugins"]).filter { it.name.contains("fleet.rpc-") })
+}
+
+// hack to have backend plugin distribution built when running Fleet
+if (useLocalBackendPlugin != null) {
+    dependencies {
+        implementation(project(":fleet-backend-plugin", "pluginDist"))
+    }
+    tasks {
+        runFleet {
+            dependsOn(compileJava)
+        }
+    }
 }

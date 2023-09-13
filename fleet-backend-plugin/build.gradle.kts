@@ -8,8 +8,8 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.gradleIntelliJPlugin)
 }
-val useSnapshotVersion: String? by project
-version = properties("pluginVersion").get() + (useSnapshotVersion?.run { "." + System.currentTimeMillis() } ?: "")
+val useLocalBackendPlugin: String? by project
+version = properties("pluginVersion").get() + (useLocalBackendPlugin?.run { "." + System.currentTimeMillis() } ?: "")
 group = properties("pluginGroup").get()
 
 repositories {
@@ -21,7 +21,7 @@ val pluginDist by configurations.creating {
     isCanBeResolved = false
 }
 artifacts {
-    add(pluginDist.name, tasks.getByName("buildPlugin"))
+    add(pluginDist.name, tasks.buildPlugin)
 }
 
 dependencies {
