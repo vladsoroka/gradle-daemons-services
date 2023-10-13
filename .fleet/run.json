@@ -8,7 +8,8 @@
                 ":gradle-daemons-plugin:runFleet"
             ],
             "args": [
-                "-PuseLocalBackendPlugin"
+                "-PuseLocalBackendPlugin",
+//                "--debug-jvm"
             ]
         },
         {

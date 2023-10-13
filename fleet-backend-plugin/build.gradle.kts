@@ -1,3 +1,4 @@
+import org.jetbrains.intellij.IntelliJPluginConstants
 import org.jetbrains.intellij.tasks.InstrumentCodeTask
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.intellij.tasks.PublishPluginTask
@@ -36,7 +37,7 @@ kotlin {
 intellij {
     pluginName = "gradle-daemons-services"
     version = properties("intellijVersion")
-    type = properties("intellijType")
+    type = IntelliJPluginConstants.PLATFORM_TYPE_FLEET
 
     plugins = listOf("com.intellij.gradle")
 }

@@ -11,4 +11,6 @@ module fleet.gradle.daemons.frontend {
     requires fleet.noria.awt;
 
     exports fleet.gradle.daemons.frontend;
+
+    provides fleet.kernel.plugins.Plugin with fleet.gradle.daemons.frontend.DaemonsPlugin;
 }

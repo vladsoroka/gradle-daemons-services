@@ -6,7 +6,6 @@ import fleet.frontend.actions.kernel
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.ToolEntity
 import fleet.frontend.ui.db.durableState
-import fleet.frontend.ui.db.kernel
 import fleet.gradle.daemons.common.GradleDaemonsService
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
@@ -18,6 +17,7 @@ import fleet.util.withoutCausality
 import kotlinx.coroutines.CoroutineScope
 import noria.NoriaContext
 import noria.foundation.background
+import noria.foundation.layout.padding
 import noria.foundation.shape.RoundedCornerShape
 import noria.model.Trigger
 import noria.readNonReactive
@@ -29,7 +29,6 @@ import noria.ui.components.list.SpeedSearchOptions
 import noria.ui.components.list.defaultListCell
 import noria.ui.components.list.listModel
 import noria.ui.components.modifiers.constrain
-import noria.ui.components.modifiers.padding
 import noria.ui.core.launchRestart
 import noria.ui.core.theme
 import noria.ui.draw.clip
