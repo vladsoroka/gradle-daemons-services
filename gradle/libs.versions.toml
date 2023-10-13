@@ -7,7 +7,7 @@ kotlinxSerialization = "1.6.0"
 gradleFleetPlugin = "0.2.95"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
 #gradleIntelliJPlugin = "1.15.0"
-gradleIntelliJPlugin = "1.15.1-SNAPSHOT"
+gradleIntelliJPlugin = "1.16.0"
 
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
