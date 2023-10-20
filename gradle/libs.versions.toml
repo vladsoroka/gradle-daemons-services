@@ -1,10 +1,9 @@
 [versions]
 # libraries
-
-# plugins
 kotlin = "1.9.10"
 kotlinxSerialization = "1.6.0"
-gradleFleetPlugin = "0.2.95"
+# plugins
+gradleFleetPlugin = "0.2.99"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
 #gradleIntelliJPlugin = "1.15.0"
 gradleIntelliJPlugin = "1.15.1-SNAPSHOT"

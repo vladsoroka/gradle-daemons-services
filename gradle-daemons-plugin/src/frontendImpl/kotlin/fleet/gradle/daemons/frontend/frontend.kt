@@ -15,12 +15,12 @@ private val logger by lazy { KLoggers.logger() }
 
 private const val GradleDaemonsViewName = "Gradle Daemons"
 
-class DaemonsPlugin : Plugin<API> {
-    companion object : Plugin.Key<API>
+class DaemonsPlugin : Plugin<Unit> {
+    companion object : Plugin.Key<Unit>
 
-    override val key: Plugin.Key<API> = DaemonsPlugin
+    override val key: Plugin.Key<Unit> = DaemonsPlugin
 
-    override fun ContributionScope.load(pluginScope: PluginScope): API = API().also {
+    override fun ContributionScope.load(pluginScope: PluginScope) {
         logger.warn("Initialization of Gradle Daemons plugin started")
         trigger(Triggers.NewDaemonsView.trigger, true)
         trigger(Triggers.JumpToDaemonsView.trigger, true)
