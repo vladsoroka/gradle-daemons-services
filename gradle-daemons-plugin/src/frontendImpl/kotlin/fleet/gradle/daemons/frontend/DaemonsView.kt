@@ -71,7 +71,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
         emptyList<DaemonItem>()
     }
     val tick = state { 0 }
-    val showStoppedState = state { false }
+    val showStoppedState = durableState(daemonsViewEntity, "daemonsList#show_stopped") { false }
     launchRestart(tick.read(), showStoppedState.read()) {
         val daemonInfos = mutableListOf<DaemonInfo>()
         gradleDaemonsServices.forEach { daemonsService ->
