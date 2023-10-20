@@ -72,7 +72,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
     }
     val tick = state { 0 }
     val showStoppedState = state { false }
-    launchRestart(tick.read()) {
+    launchRestart(tick.read(), showStoppedState.read()) {
         val daemonInfos = mutableListOf<DaemonInfo>()
         gradleDaemonsServices.forEach { daemonsService ->
             withEntities(daemonsService, daemonsViewEntity) {
@@ -101,6 +101,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 for (gradleDaemonsService in gradleDaemonsServices) {
                     actionContext.kernel.saga(gradleDaemonsService) {
                         gradleDaemonsService.stopAll()
+                        tick.update { it + 1 }
                     }
                 }
             }
@@ -109,6 +110,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 for (gradleDaemonsService in gradleDaemonsServices) {
                     actionContext.kernel.saga(gradleDaemonsService) {
                         gradleDaemonsService.stopAll(whenIdle = true)
+                        tick.update { it + 1 }
                     }
                 }
             }
