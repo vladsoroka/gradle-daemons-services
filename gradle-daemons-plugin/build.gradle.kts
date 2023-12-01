@@ -38,7 +38,7 @@ fleetPlugin {
     }
 
     pluginDependencies {
-        plugin("fleet.gradle")
+//        plugin("fleet.gradle")
     }
     backendRequirements {
         intellij {
@@ -58,7 +58,7 @@ fleetPlugin {
 
 val rpcJars by configurations.creating
 dependencies {
-    "rpcJars"(files(configurations["commonApi-plugins"]).filter { it.name.contains("fleet.rpc-") })
+    "rpcJars"(files(configurations["commonApi-fleet-automatic-dependencies"]).filter { it.name.contains("fleet.rpc-") })
 }
 
 // hack to have backend plugin distribution built when running Fleet

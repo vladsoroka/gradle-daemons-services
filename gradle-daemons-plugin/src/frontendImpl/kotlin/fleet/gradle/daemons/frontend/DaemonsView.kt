@@ -2,14 +2,13 @@ package fleet.gradle.daemons.frontend
 
 import fleet.common.services.services
 import fleet.common.topology.ServiceEntity
-import fleet.frontend.actions.kernel
+import fleet.frontend.actions.performSagaAction
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.ToolEntity
 import fleet.frontend.ui.db.durableState
 import fleet.gradle.daemons.common.GradleDaemonsService
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
-import fleet.kernel.saga
 import fleet.kernel.withEntities
 import fleet.rpc.client.durable
 import fleet.util.UID
@@ -32,7 +31,6 @@ import noria.ui.components.modifiers.constrain
 import noria.ui.core.launchRestart
 import noria.ui.core.theme
 import noria.ui.draw.clip
-import noria.ui.text.trimmedTextLineWithHighlights
 import noria.ui.text.uiText
 import noria.ui.theme.TextStyleKeys
 import noria.ui.theme.ThemeKeys
@@ -99,18 +97,22 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
             gap(width = 16.dp)
             button("Stop All") {
                 for (gradleDaemonsService in gradleDaemonsServices) {
-                    actionContext.kernel.saga(gradleDaemonsService) {
-                        gradleDaemonsService.stopAll()
-                        tick.update { it + 1 }
+                    performSagaAction(actionContext) {
+                        withEntities(gradleDaemonsService) {
+                            gradleDaemonsService.stopAll()
+                            tick.update { it + 1 }
+                        }
                     }
                 }
             }
             gap(width = 8.dp)
             button("Stop All When Idle") {
                 for (gradleDaemonsService in gradleDaemonsServices) {
-                    actionContext.kernel.saga(gradleDaemonsService) {
-                        gradleDaemonsService.stopAll(whenIdle = true)
-                        tick.update { it + 1 }
+                    performSagaAction(actionContext) {
+                        withEntities(gradleDaemonsService) {
+                            gradleDaemonsService.stopAll(whenIdle = true)
+                            tick.update { it + 1 }
+                        }
                     }
                 }
             }
@@ -129,24 +131,21 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     selectFirstItem = true,
                     speedSearchOptions = SpeedSearchOptions.Default(filterResults = true)
                 ),
-                textToMatchFn = { it.info.title() }) { item, opts ->
-                defaultListCell(
-                    listItemOpts = opts, cellColors = ::toolItemCellColors,
-                    iconRenderer = {
-                        val iconKey =
-                            if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
-                        vbox(Align.Center, modifier = Modifier.constrain(preferredHeight = 12.dp)) {
-                            icon(iconKey, size = DpSize(12.dp, 12.dp))
+                textToMatchFn = { it.info.title() },
+                renderFn = { item, opts ->
+                    defaultListCell(
+                        item.info.title(),
+                        listItemOpts = opts,
+                        cellColors = ::toolItemCellColors,
+                        iconRenderer = {
+                            val iconKey =
+                                if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
+                            vbox(Align.Center, modifier = Modifier.constrain(preferredHeight = 12.dp)) {
+                                icon(iconKey, size = DpSize(12.dp, 12.dp))
+                            }
                         }
-                    }
-                ) {
-                    trimmedTextLineWithHighlights(
-                        text = item.info.title(),
-                        textColor = theme[ThemeKeys.Text],
-                        matcher = opts.matcher
                     )
-                }
-            }
+                })
             withModifier(Modifier.clip(RoundedCornerShape(6.dp))) {
                 mainDetailListView(
                     listModel = listModel,

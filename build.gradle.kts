@@ -14,12 +14,6 @@ repositories {
 //    maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
 }
 
-tasks {
-    wrapper {
-        gradleVersion = properties("gradleVersion").get()
-    }
-}
-
 tasks.register("pluginsDist") {
     dependsOn(":gradle-daemons-plugin:distZip")
     dependsOn(":fleet-backend-plugin:buildPlugin")
