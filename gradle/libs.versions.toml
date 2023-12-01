@@ -1,7 +1,7 @@
 [versions]
 # libraries
 kotlin = "1.9.10"
-kotlinxSerialization = "1.6.0"
+kotlinxSerialization = "1.6.2"
 # plugins
 gradleFleetPlugin = "0.2.99"
 #gradleFleetPlugin = "0.2-SNAPSHOT"
