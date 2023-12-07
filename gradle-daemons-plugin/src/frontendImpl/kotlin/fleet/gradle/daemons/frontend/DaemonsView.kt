@@ -32,8 +32,8 @@ import noria.ui.core.launchRestart
 import noria.ui.core.theme
 import noria.ui.draw.clip
 import noria.ui.text.uiText
-import noria.ui.theme.TextStyleKeys
-import noria.ui.theme.ThemeKeys
+import noria.ui.theme.keys.TextStyleKeys
+import noria.ui.theme.keys.ThemeKeys
 import noria.ui.unit.DpSize
 import noria.ui.unit.dp
 import noria.ui.withModifier

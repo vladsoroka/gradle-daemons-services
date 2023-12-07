@@ -52,7 +52,8 @@ fleetPlugin {
 
     publishing {
         token = properties("intellijPublishToken")
-        channel = "stable"
+        channel = "nightly"
+//        channel = "stable"
     }
 }
 
