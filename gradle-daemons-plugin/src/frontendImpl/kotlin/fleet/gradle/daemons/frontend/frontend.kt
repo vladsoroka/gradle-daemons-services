@@ -5,7 +5,7 @@ import fleet.frontend.actions.trigger
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.*
 import fleet.frontend.toolEntityRenderer
-import fleet.kernel.ChangeScope
+import com.jetbrains.rhizomedb.ChangeScope
 import fleet.kernel.change
 import fleet.kernel.plugins.*
 import fleet.util.logging.KLoggers

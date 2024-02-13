@@ -1,9 +1,18 @@
 package fleet.gradle.daemons.frontend
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import fleet.common.services.services
 import fleet.common.topology.ServiceEntity
 import fleet.frontend.actions.performSagaAction
 import fleet.frontend.icons.IconKeys
+import fleet.frontend.layout.SharedLayoutId
 import fleet.frontend.layout.ToolEntity
 import fleet.frontend.ui.db.durableState
 import fleet.gradle.daemons.common.GradleDaemonsService
@@ -11,17 +20,12 @@ import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
 import fleet.kernel.withEntities
 import fleet.rpc.client.durable
-import fleet.util.UID
 import fleet.util.withoutCausality
 import kotlinx.coroutines.CoroutineScope
 import noria.NoriaContext
-import noria.foundation.background
-import noria.foundation.layout.padding
-import noria.foundation.shape.RoundedCornerShape
 import noria.model.Trigger
 import noria.readNonReactive
 import noria.state
-import noria.ui.Modifier
 import noria.ui.components.*
 import noria.ui.components.list.ListViewOptions
 import noria.ui.components.list.SpeedSearchOptions
@@ -30,18 +34,15 @@ import noria.ui.components.list.listModel
 import noria.ui.components.modifiers.constrain
 import noria.ui.core.launchRestart
 import noria.ui.core.theme
-import noria.ui.draw.clip
 import noria.ui.text.uiText
 import noria.ui.theme.keys.TextStyleKeys
 import noria.ui.theme.keys.ThemeKeys
-import noria.ui.unit.DpSize
-import noria.ui.unit.dp
 import noria.ui.withModifier
 import java.text.DateFormat
 import java.util.*
 
 internal interface DaemonsViewEntity : ToolEntity {
-    override fun sharedUID(): UID = UID(DaemonsViewEntity::class.toString())
+    override fun sharedUID(): SharedLayoutId = SharedLayoutId(DaemonsViewEntity::class.toString())
 }
 
 enum class Triggers(ident: String) {
@@ -51,6 +52,7 @@ enum class Triggers(ident: String) {
     val trigger: Trigger = Trigger(ident)
 }
 
+@Composable
 internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity) {
     val gradleDaemonsServices = services<GradleDaemonsService>()
     if (gradleDaemonsServices.isEmpty()) {
@@ -136,7 +138,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     defaultListCell(
                         item.info.title(),
                         listItemOpts = opts,
-                        cellColors = ::toolItemCellColors,
+                        cellColors = { toolItemCellColors(it) },
                         iconRenderer = {
                             val iconKey =
                                 if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped

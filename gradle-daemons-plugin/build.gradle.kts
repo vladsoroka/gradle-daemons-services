@@ -52,8 +52,8 @@ fleetPlugin {
 
     publishing {
         token = properties("intellijPublishToken")
-        channel = "nightly"
-//        channel = "stable"
+//        channel = "nightly"
+        channel = "stable"
     }
 }
 
@@ -65,7 +65,7 @@ dependencies {
 // hack to have backend plugin distribution built when running Fleet
 if (useLocalBackendPlugin != null) {
     dependencies {
-        implementation(project(":fleet-backend-plugin", "pluginDist"))
+//        implementation(project(":fleet-backend-plugin", "pluginDist"))
     }
     tasks {
         runFleet {
