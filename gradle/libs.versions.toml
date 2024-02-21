@@ -4,8 +4,7 @@ kotlin = "1.9.22"
 kotlinxSerialization = "1.6.2"
 # plugins
 gradleFleetPlugin = "0.4.198"
-#gradleFleetPlugin = "0.3.9999-SNAPSHOT.0"
-gradleIntelliJPlugin = "1.17.1"
+gradleIntelliJPlugin = "1.17.2"
 
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
