@@ -46,11 +46,11 @@ internal interface DaemonsViewEntity : ToolEntity {
     override fun sharedUID(): SharedLayoutId = SharedLayoutId(DaemonsViewEntity::class.toString())
 }
 
-enum class Triggers(ident: String) {
+enum class Triggers(id: String) {
     NewDaemonsView("gradle/new-daemons-view"),
     JumpToDaemonsView("gradle/jump-to-daemons-view");
 
-    val trigger: Trigger = Trigger(ident)
+    val trigger: Trigger = Trigger(id)
 }
 
 @Composable

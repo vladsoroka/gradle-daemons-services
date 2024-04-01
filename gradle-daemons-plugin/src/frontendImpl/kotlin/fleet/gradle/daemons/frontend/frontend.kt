@@ -6,6 +6,7 @@ import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.*
 import fleet.frontend.toolEntityRenderer
 import com.jetbrains.rhizomedb.ChangeScope
+import fleet.frontend.actions.reportedActions
 import fleet.kernel.change
 import fleet.kernel.plugins.*
 import fleet.util.logging.KLoggers
@@ -40,6 +41,8 @@ class DaemonsPlugin : Plugin<Unit> {
                 }.asArray()
         )
         toolEntityRenderer(DaemonsViewEntity::class, ToolPosition.BottomPanel) { renderDaemonsView(it) }
+
+        reportedActions { Triggers.values().map { it.trigger.ident } }
     }
 }
 
