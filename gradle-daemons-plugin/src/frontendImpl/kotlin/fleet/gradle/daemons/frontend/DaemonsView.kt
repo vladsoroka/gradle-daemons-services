@@ -240,6 +240,6 @@ private suspend fun <T : ServiceEntity<*>, K> rpcCall(service: T, call: suspend 
 private val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 private val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
 private fun DaemonInfo.title(): String {
-    val versionOrEmpty = version ?: ""
-    return "$pid $state ${versionOrEmpty}, ${timeFormat.format(Date(lastBusy))}"
+    val versionOrEmpty = version?.run { " $this" }.orEmpty()
+    return "$pid $state${versionOrEmpty}, ${timeFormat.format(Date(lastBusy))}"
 }
