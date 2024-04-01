@@ -39,7 +39,7 @@ class DaemonsPlugin : Plugin<Unit> {
                     }
                 }.asArray()
         )
-        toolEntityRenderer(DaemonsViewEntity::class, ToolPosition.BottomPanel, NoriaContext::renderDaemonsView)
+        toolEntityRenderer(DaemonsViewEntity::class, ToolPosition.BottomPanel) { renderDaemonsView(it) }
     }
 }
 

@@ -10,7 +10,11 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import fleet.common.services.services
 import fleet.common.topology.ServiceEntity
-import fleet.compose.theme.components.Icon
+import fleet.compose.theme.components.*
+import fleet.compose.theme.components.checkbox.Checkbox
+import fleet.compose.theme.keys.TextStyleKeys
+import fleet.compose.theme.keys.ThemeKeys
+import fleet.compose.theme.theme
 import fleet.frontend.actions.performSagaAction
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.layout.SharedLayoutId
@@ -32,12 +36,7 @@ import noria.ui.components.list.ListViewOptions
 import noria.ui.components.list.SpeedSearchOptions
 import noria.ui.components.list.defaultListCell
 import noria.ui.components.list.listModel
-import noria.ui.components.modifiers.constrain
 import noria.ui.core.launchRestart
-import noria.ui.core.theme
-import noria.ui.text.uiText
-import noria.ui.theme.keys.TextStyleKeys
-import noria.ui.theme.keys.ThemeKeys
 import noria.ui.withModifier
 import java.text.DateFormat
 import java.util.*
@@ -59,7 +58,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
     if (gradleDaemonsServices.isEmpty()) {
         Column {
             Row(modifier = Modifier.padding(8.dp)) {
-                uiText("Gradle daemons information is not available")
+                UiText("Gradle daemons information is not available")
             }
         }
         return
@@ -94,11 +93,11 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
     Column {
         Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.Center) {
             Spacer(Modifier.width(8.dp))
-            button("Reload", iconKey = IconKeys.Reload, iconSide = IconSide.Left) {
+            Button(text = "Reload", iconKey = IconKeys.Reload, iconSide = IconSide.Left) {
                 tick.update { it + 1 }
             }
             Spacer(Modifier.width(16.dp))
-            button("Stop All") {
+            Button(text = "Stop All") {
                 for (gradleDaemonsService in gradleDaemonsServices) {
                     performSagaAction(actionContext) {
                         withEntities(gradleDaemonsService) {
@@ -109,7 +108,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 }
             }
             Spacer(Modifier.width(8.dp))
-            button("Stop All When Idle") {
+            Button(text = "Stop All When Idle") {
                 for (gradleDaemonsService in gradleDaemonsServices) {
                     performSagaAction(actionContext) {
                         withEntities(gradleDaemonsService) {
@@ -120,13 +119,17 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 }
             }
             Spacer(Modifier.width(16.dp))
-            checkbox(showStoppedState, "Show Stopped")
+            Checkbox(showStoppedState.read(),
+                     onCheckedChange = {
+                         showStoppedState.update { !it }
+                     },
+                     "Show Stopped")
         }
         Spacer(Modifier.height(4.dp))
         val daemons = listState.read()
         if (daemons.isEmpty()) {
             Row(modifier = Modifier.padding(8.dp)) {
-                uiText(editorState.read())
+                UiText(editorState.read())
             }
         } else {
             val listModel = listModel(daemons,
@@ -143,7 +146,10 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                         iconRenderer = {
                             val iconKey =
                                 if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
-                            Column(modifier = Modifier.constrain(preferredHeight = 12.dp), verticalArrangement = Arrangement.Center) {
+                            Column(
+                                modifier = Modifier.height(12.dp),
+                                verticalArrangement = Arrangement.Center
+                            ) {
                                 Icon(iconKey, size = DpSize(12.dp, 12.dp))
                             }
                         }
@@ -155,59 +161,59 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     modifier = Modifier.background(theme[ThemeKeys.Fill]),
                     renderDetailItem = { daemon ->
                         val lastBusyDate = dateFormat.format(Date(daemon.info.lastBusy))
-                        Column (modifier = Modifier.padding(8.dp)) {
+                        Column(modifier = Modifier.padding(8.dp)) {
                             Column {
                                 val preferredWidth = 120.dp
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("PID", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("PID", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText("${daemon.info.pid}")
+                                    UiText("${daemon.info.pid}")
                                 }
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("Status", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("Status", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText("${daemon.info.state}")
+                                    UiText("${daemon.info.state}")
                                 }
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("Last busy", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("Last busy", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
                                     Row {
-                                        uiText(lastBusyDate)
+                                        UiText(lastBusyDate)
                                         Spacer(Modifier.width(4.dp))
-                                        uiText(
+                                        UiText(
                                             "(last time the daemon was brought out of idle mode)",
                                             textStyleKey = TextStyleKeys.DefaultItalic
                                         )
                                     }
                                 }
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("Java home", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("Java home", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText(daemon.info.javaHome ?: "")
+                                    UiText(daemon.info.javaHome ?: "")
                                 }
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("Daemons dir", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("Daemons dir", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText(daemon.info.registryDir ?: "")
+                                    UiText(daemon.info.registryDir ?: "")
                                 }
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("Idle timeout", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("Idle timeout", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
-                                    uiText(daemon.info.idleTimeout?.toString() ?: "")
+                                    UiText(daemon.info.idleTimeout?.toString() ?: "")
                                 }
                                 Row {
-                                    constrain(preferredWidth = preferredWidth) {
-                                        uiText("Daemons options", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                    withModifier(modifier = Modifier.width(preferredWidth)) {
+                                        UiText("Daemons options", textStyleKey = TextStyleKeys.DefaultSemiBold)
                                     }
                                     Column {
                                         for (opt in daemon.info.daemonOpts) {
-                                            uiText(opt)
+                                            UiText(opt)
                                         }
                                     }
                                 }
