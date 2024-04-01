@@ -10,7 +10,6 @@ import fleet.frontend.actions.reportedActions
 import fleet.kernel.change
 import fleet.kernel.plugins.*
 import fleet.util.logging.KLoggers
-import noria.NoriaContext
 
 private val logger by lazy { KLoggers.logger() }
 
@@ -26,19 +25,19 @@ class DaemonsPlugin : Plugin<Unit> {
         trigger(Triggers.NewDaemonsView.trigger, true)
         trigger(Triggers.JumpToDaemonsView.trigger, true)
         actions(
-                *toolActions(
-                        toolName = GradleDaemonsViewName,
-                        entityType = DaemonsViewEntity::class,
-                        icon = IconKeys.Gradle,
-                        newIdentifier = "tools/gradle/daemons/new",
-                        jumpToIdentifier = "tools/gradle/daeons/jump-to",
-                        newTriggers = setOf(Triggers.NewDaemonsView.trigger),
-                        jumpToTriggers = setOf(Triggers.JumpToDaemonsView.trigger)
-                ) { actionContext ->
-                    change {
-                        openTool(newGradleDaemonsView(), actionContext)
-                    }
-                }.asArray()
+            *toolActions(
+                toolName = GradleDaemonsViewName,
+                entityType = DaemonsViewEntity::class,
+                icon = IconKeys.Gradle,
+                newIdentifier = "tools/gradle/daemons/new",
+                jumpToIdentifier = "tools/gradle/daeons/jump-to",
+                newTriggers = setOf(Triggers.NewDaemonsView.trigger),
+                jumpToTriggers = setOf(Triggers.JumpToDaemonsView.trigger)
+            ) { actionContext ->
+                change {
+                    openTool(newGradleDaemonsView(), actionContext)
+                }
+            }.asArray()
         )
         toolEntityRenderer(DaemonsViewEntity::class, ToolPosition.BottomPanel) { renderDaemonsView(it) }
 

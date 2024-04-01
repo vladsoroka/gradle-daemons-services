@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import fleet.common.services.services
 import fleet.common.topology.ServiceEntity
+import fleet.compose.foundation.text.selection.NoriaSelectionContainer
 import fleet.compose.theme.components.*
 import fleet.compose.theme.components.checkbox.Checkbox
 import fleet.compose.theme.keys.TextStyleKeys
@@ -168,60 +169,62 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     modifier = Modifier.background(theme[ThemeKeys.Fill]),
                     renderDetailItem = { daemon ->
                         scroll {
-                            val lastBusyDate = dateFormat.format(Date(daemon.info.lastBusy))
-                            Column(modifier = Modifier.padding(8.dp)) {
-                                Column {
-                                    val preferredWidth = 120.dp
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("PID", textStyleKey = TextStyleKeys.DefaultSemiBold)
-                                        }
-                                        UiText("${daemon.info.pid}")
-                                    }
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("Status", textStyleKey = TextStyleKeys.DefaultSemiBold)
-                                        }
-                                        UiText("${daemon.info.state}")
-                                    }
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("Last busy", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                            NoriaSelectionContainer {
+                                val lastBusyDate = dateFormat.format(Date(daemon.info.lastBusy))
+                                Column(modifier = Modifier.padding(8.dp)) {
+                                    Column {
+                                        val preferredWidth = 120.dp
+                                        Row {
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("PID", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            UiText("${daemon.info.pid}")
                                         }
                                         Row {
-                                            UiText(lastBusyDate)
-                                            Spacer(Modifier.width(4.dp))
-                                            UiText(
-                                                "(last time the daemon was brought out of idle mode)",
-                                                textStyleKey = TextStyleKeys.DefaultItalic
-                                            )
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("Status", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            UiText("${daemon.info.state}")
                                         }
-                                    }
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("Java home", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                        Row {
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("Last busy", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            Row {
+                                                UiText(lastBusyDate)
+                                                Spacer(Modifier.width(4.dp))
+                                                UiText(
+                                                    "(last time the daemon was brought out of idle mode)",
+                                                    textStyleKey = TextStyleKeys.DefaultItalic
+                                                )
+                                            }
                                         }
-                                        UiText(daemon.info.javaHome ?: "")
-                                    }
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("Daemons dir", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                        Row {
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("Java home", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            UiText(daemon.info.javaHome ?: "")
                                         }
-                                        UiText(daemon.info.registryDir ?: "")
-                                    }
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("Idle timeout", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                        Row {
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("Daemons dir", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            UiText(daemon.info.registryDir ?: "")
                                         }
-                                        UiText(daemon.info.idleTimeout?.toString() ?: "")
-                                    }
-                                    Row {
-                                        withModifier(modifier = Modifier.width(preferredWidth)) {
-                                            UiText("Daemons options", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                        Row {
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("Idle timeout", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            UiText(daemon.info.idleTimeout?.toString() ?: "")
                                         }
-                                        Column {
-                                            for (opt in daemon.info.daemonOpts) {
-                                                UiText(opt)
+                                        Row {
+                                            withModifier(modifier = Modifier.width(preferredWidth)) {
+                                                UiText("Daemons options", textStyleKey = TextStyleKeys.DefaultSemiBold)
+                                            }
+                                            Column {
+                                                for (opt in daemon.info.daemonOpts) {
+                                                    UiText(opt)
+                                                }
                                             }
                                         }
                                     }
