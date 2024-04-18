@@ -150,7 +150,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                     defaultListCell(
                         item.info.title(),
                         listItemOpts = opts,
-                        cellColors = { toolItemCellColors(it) },
+                        cellColors = { itemCellColors(it) },
                         iconRenderer = {
                             val iconKey =
                                 if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
