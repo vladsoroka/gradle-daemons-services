@@ -158,7 +158,13 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                                 modifier = Modifier.height(12.dp),
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                Icon(iconKey, size = DpSize(12.dp, 12.dp))
+                                Icon(
+                                    iconKey = iconKey,
+                                    size = DpSize(12.dp, 12.dp),
+                                    modifier = Modifier,
+                                    palette = null,
+                                    rotation = null,
+                                )
                             }
                         }
                     )
