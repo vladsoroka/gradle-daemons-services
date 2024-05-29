@@ -173,7 +173,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 mainDetailListView(
                     listModel = listModel,
                     modifier = Modifier.background(theme[ThemeKeys.Fill]),
-                    renderDetailItem = { daemon ->
+                    renderDetailItem = { daemon, _ ->
                         scroll {
                             NoriaSelectionContainer {
                                 val lastBusyDate = dateFormat.format(Date(daemon.info.lastBusy))
