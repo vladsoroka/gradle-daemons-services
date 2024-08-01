@@ -6,3 +6,7 @@
 
 
 ![alt text](gradle_daemons_tool.png)
+
+<!-- Plugin description -->
+**Gradle Daemons Services** is a plugin for Fleet which provides actions to view and stop Gradle daemons.
+<!-- Plugin description end -->
