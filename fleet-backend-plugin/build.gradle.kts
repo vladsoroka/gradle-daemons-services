@@ -48,6 +48,10 @@ intellijPlatform {
             sinceBuild = libs.versions.intellij.runtime.max.version
         }
     }
+
+    publishing {
+        token = properties("intellijPublishToken")
+    }
 }
 
 tasks {
