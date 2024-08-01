@@ -51,7 +51,7 @@ jobs:
 
       # Build plugin
       - name: Build plugin
-        run: ./gradlew pluginsDist
+        run: ./gradlew :gradle-daemons-plugin:distZip
 
   # Run tests and upload a code coverage report
   test:
