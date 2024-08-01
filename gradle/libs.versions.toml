@@ -2,6 +2,7 @@
 fleet-sdk = "0.5.231"
 rpc-compiler = "1.9.20-0.1"
 fleet-runtime = "1.39.77"
+fleet-runtime-min-version = "1.39.77"
 fleet-runtime-max-version = "1.99.999"
 
 intellij-sdk = "2.0.0"

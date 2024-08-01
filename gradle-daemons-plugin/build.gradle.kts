@@ -27,6 +27,7 @@ fleetPlugin {
     }
     fleetRuntime {
         version = libs.versions.fleet.runtime.asProvider().get()
+        minVersion = libs.versions.fleet.runtime.min.version
         maxVersion = libs.versions.fleet.runtime.max.version
     }
 
