@@ -48,8 +48,6 @@ jobs:
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "pluginVerifierHomeDir=~/.pluginVerifier" >> $GITHUB_OUTPUT
-          
-          echo "EOF" >> $GITHUB_OUTPUT
 
       # Build plugin
       - name: Build plugin
