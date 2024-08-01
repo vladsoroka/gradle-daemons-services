@@ -4,8 +4,8 @@ rpc-compiler = "1.9.20-0.1"
 fleet-runtime = "1.39.76"
 fleet-runtime-max-version = "1.99.999"
 
-intellij-sdk = "1.17.2"
-intellij-instrumenting-compiler = "2024.1.4"
+intellij-sdk = "2.0.0"
+intellij-instrumenting-compiler = "241.18034.82"
 intellij-runtime = "LATEST-TRUNK-SNAPSHOT"
 intellij-runtime-min-version = "243.0"
 intellij-runtime-max-version = "243.*"
@@ -21,7 +21,7 @@ kotlinx-serialization-json-jvm = { group = "org.jetbrains.kotlinx", name = "kotl
 fleet-plugin = { id = "org.jetbrains.fleet-plugin", version.ref = "fleet-sdk" }
 fleet-plugin-layer = { id = "org.jetbrains.fleet-plugin-layer", version.ref = "fleet-sdk" }
 rpc-compiler = { id = "rpc", version.ref = "rpc-compiler" }
-intellij-plugin = { id = "org.jetbrains.intellij", version.ref = "intellij-sdk" }
+intellij-plugin = { id = "org.jetbrains.intellij.platform", version.ref = "intellij-sdk" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
