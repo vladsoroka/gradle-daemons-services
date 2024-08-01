@@ -1,0 +1,9 @@
+{
+    "plugins": [
+        {
+            "type": "add",
+            "pluginName": "gradle.daemon.services"
+        }
+    ],
+    "backend.maxHeapSizeMb": 1487
+}

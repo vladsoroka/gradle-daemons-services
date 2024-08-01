@@ -1,0 +1,7 @@
+.gradle
+.idea
+build
+/gradle-daemons-plugin/system/
+/gradle-daemons-plugin/fleetDistribution/
+/gradle-daemons-plugin/config/
+.DS_Store

@@ -1,0 +1,33 @@
+{
+    "configurations": [
+        {
+            "name": "Run Fleet",
+            "type": "gradle",
+            "workingDir": "$PROJECT_DIR$",
+            "tasks": [
+                ":gradle-daemons-plugin:runFleet"
+            ],
+            "args": [
+                "-PuseLocalBackendPlugin",
+//                "--debug-jvm"
+            ]
+        },
+        {
+            "name": "Create Dist",
+            "type": "gradle",
+            "tasks": [
+                "pluginsDist"
+            ],
+        },
+        {
+            "name": "Upload Plugins",
+            "type": "gradle",
+            "tasks": [
+                "uploadPlugins"
+            ],
+            "dependsOn": [
+                "Create Dist"
+            ],
+        }
+    ]
+}

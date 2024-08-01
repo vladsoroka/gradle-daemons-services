@@ -1,0 +1,17 @@
+<idea-plugin>
+    <idea-version since-build="243.0" until-build="243.*" />
+    <id>com.github.vladsoroka.gradledaemonservices</id>
+    <name>Gradle Daemon Services</name>
+    <vendor>vladsoroka</vendor>
+    <description>
+        Exposes services to view and manage Gradle Daemons started by IntelliJ
+    </description>
+
+    <depends>com.intellij.modules.fleet.backend</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.gradle</depends>
+
+    <extensions defaultExtensionNs="fleet.backend">
+        <serviceProvider implementation="com.github.vladsoroka.gradle.daemon.services.FleetGradleDaemonsApiProvider"/>
+    </extensions>
+</idea-plugin>
