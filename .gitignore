@@ -1,5 +1,6 @@
 .gradle
 .idea
+.intellijPlatform
 build
 /gradle-daemons-plugin/system/
 /gradle-daemons-plugin/fleetDistribution/
