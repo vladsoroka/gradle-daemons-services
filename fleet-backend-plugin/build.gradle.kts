@@ -45,7 +45,7 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = libs.versions.intellij.runtime.min.version
-            sinceBuild = libs.versions.intellij.runtime.max.version
+            untilBuild = libs.versions.intellij.runtime.max.version
         }
     }
 
