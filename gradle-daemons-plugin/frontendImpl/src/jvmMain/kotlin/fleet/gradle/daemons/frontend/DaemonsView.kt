@@ -143,27 +143,20 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 ),
                 textToMatchFn = { it.info.title() },
                 renderFn = { item, opts ->
-                    defaultListCell(
-                        item.info.title(),
-                        listItemOpts = opts,
-                        cellColors = { itemCellColors(it) },
-                        iconRenderer = {
-                            val iconKey =
-                                if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running else IconKeys.Plugins.Docker.Stopped
-                            Column(
-                                modifier = Modifier.height(12.dp),
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Icon(
-                                    iconKey = iconKey,
-                                    size = DpSize(12.dp, 12.dp),
-                                    modifier = Modifier,
-                                    palette = null,
-                                    rotation = null,
-                                )
-                            }
-                        }
-                    )
+                    defaultListCell(listItemOpts = opts, cellColors = { itemCellColors(it) }) { colors ->
+                        val iconKey =
+                            if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running
+                            else IconKeys.Plugins.Docker.Stopped
+                        Icon(iconKey, size = DpSize(12.dp, 12.dp))
+                        Spacer(Modifier.width(4.dp))
+                        UiText(
+                            buildStringWithMatcher(
+                                text = item.info.title(),
+                                textColor = colors.text,
+                                matcher = opts.matcher
+                            )
+                        )
+                    }
                 })
             withModifier(Modifier.clip(RoundedCornerShape(6.dp))) {
                 MainDetail(
