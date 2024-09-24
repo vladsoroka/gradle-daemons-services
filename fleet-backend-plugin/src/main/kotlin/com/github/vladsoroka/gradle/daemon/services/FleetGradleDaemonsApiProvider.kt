@@ -12,7 +12,9 @@ import fleet.rpc.remoteApiDescriptor
 import fleet.util.logging.KLoggers
 import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.model.build.BuildEnvironment
-import org.jetbrains.plugins.gradle.internal.daemon.GradleDaemonServices
+import org.jetbrains.plugins.gradle.internal.daemon.getDaemonsStatus
+import org.jetbrains.plugins.gradle.internal.daemon.gracefulStopDaemons
+import org.jetbrains.plugins.gradle.internal.daemon.stopDaemons
 import org.jetbrains.plugins.gradle.settings.GradleSettings
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
@@ -37,7 +39,7 @@ private class BackendGradleDaemonsApi(ws: BackendWorkspace) : WorkspaceAwareApi(
     override suspend fun listDaemons(includeStopped: Boolean): List<DaemonInfo> {
         logger.trace { "Daemons list request..." }
         ensureInit(ws)
-        return GradleDaemonServices.getDaemonsStatus()
+        return getDaemonsStatus()
             .filter { includeStopped || it.token != null }
             .map { it.toDaemonInfo() }
     }
@@ -45,10 +47,10 @@ private class BackendGradleDaemonsApi(ws: BackendWorkspace) : WorkspaceAwareApi(
     override suspend fun stopAll(whenIdle: Boolean) {
         if (whenIdle) {
             logger.trace { "Graceful stop all daemons request..." }
-            GradleDaemonServices.gracefulStopDaemons()
+            gracefulStopDaemons()
         } else {
             logger.trace { "Stop all daemons request..." }
-            GradleDaemonServices.stopDaemons()
+            stopDaemons()
         }
     }
 

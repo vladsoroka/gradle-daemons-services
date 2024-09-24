@@ -19,6 +19,12 @@ kotlin {
     jvmToolchain(17)
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
 val moduleName = "fleet.gradle.daemons.protocol"
 tasks {
     compileJava {

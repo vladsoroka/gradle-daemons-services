@@ -8,3 +8,12 @@ plugins {
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
 
+kotlin {
+    jvmToolchain(21)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "21"
+    }
+}

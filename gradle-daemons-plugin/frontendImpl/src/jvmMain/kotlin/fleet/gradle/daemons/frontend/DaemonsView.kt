@@ -154,7 +154,8 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                                 text = item.info.title(),
                                 textColor = colors.text,
                                 matcher = opts.matcher
-                            )
+                            ),
+                            textStyleKey = TextStyleKeys.Default
                         )
                     }
                 })

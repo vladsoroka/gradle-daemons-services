@@ -13,6 +13,7 @@ repositories {
     mavenCentral()
     intellijPlatform {
         defaultRepositories()
+        jetbrainsRuntime()
         nightly()
     }
 }
@@ -27,6 +28,7 @@ artifacts {
 dependencies {
     intellijPlatform {
         fleetBackend(libs.versions.intellij.runtime.asProvider().get(), useInstaller = false)
+        jetbrainsRuntime()
         bundledPlugins("com.intellij.gradle")
         javaCompiler(libs.versions.intellij.instrumenting.compiler)
     }
@@ -38,7 +40,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 intellijPlatform {
