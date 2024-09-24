@@ -1,10 +1,10 @@
 {
     "internalMode": true,
     "plugins": [
-//        {
-//            "type": "add",
-//            "pluginName": "gradle.daemon.services"
-//        },
+        {
+            "type": "add",
+            "pluginName": "gradle.daemon.services"
+        },
         {
             "type": "add",
             "pluginName": "fleet.kotlin"
