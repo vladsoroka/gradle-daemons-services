@@ -9,9 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.jetbrains.rhizomedb.LegacyEntity
-import fleet.common.services.services
-import fleet.common.topology.ServiceEntity
+import com.jetbrains.rhizomedb.EID
+import com.jetbrains.rhizomedb.Entity
+import com.jetbrains.rhizomedb.EntityType
+import fleet.common.topology.Service
+import fleet.common.topology.all
 import fleet.compose.foundation.text.selection.NoriaSelectionContainer
 import fleet.compose.theme.components.*
 import fleet.compose.theme.components.checkbox.Checkbox
@@ -21,9 +23,9 @@ import fleet.compose.theme.launchRestart
 import fleet.compose.theme.theme
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.ui.db.durableState
-import fleet.gradle.daemons.common.GradleDaemonsService
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
+import fleet.gradle.daemons.protocol.GradleDaemonsApi
 import fleet.kernel.plugins.PluginScope
 import fleet.kernel.saga
 import fleet.kernel.withEntities
@@ -44,7 +46,9 @@ import noria.ui.withModifier
 import java.text.DateFormat
 import java.util.*
 
-internal interface DaemonsViewEntity : LegacyEntity
+internal data class DaemonsViewEntity(override val eid: EID) : Entity {
+    companion object : EntityType<DaemonsViewEntity>(DaemonsViewEntity::class, ::DaemonsViewEntity)
+}
 
 enum class Actions(id: String) {
     NewDaemonsView("gradle/new-daemons-view"),
@@ -55,7 +59,7 @@ enum class Actions(id: String) {
 
 @Composable
 internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity, pluginScope: PluginScope) {
-    val gradleDaemonsServices = services<GradleDaemonsService>()
+    val gradleDaemonsServices = GradleDaemonsApi.all()
     if (gradleDaemonsServices.isEmpty()) {
         Column {
             Row(modifier = Modifier.padding(8.dp)) {
@@ -76,7 +80,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
     launchRestart(tick.read(), showStoppedState.read()) {
         val daemonInfos = mutableListOf<DaemonInfo>()
         gradleDaemonsServices.forEach { daemonsService ->
-            withEntities(daemonsService, daemonsViewEntity) {
+            withEntities(daemonsViewEntity) {
                 try {
                     editorState.update { "Loading daemons info ..." }
                     listState.update { emptyList() }
@@ -104,8 +108,8 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
             Spacer(Modifier.width(16.dp))
             Button(text = "Stop All") {
                 for (gradleDaemonsService in gradleDaemonsServices) {
-                    pluginScope.saga(gradleDaemonsService) {
-                        gradleDaemonsService.stopAll()
+                    pluginScope.saga(gradleDaemonsService.provider) {
+                        gradleDaemonsService.api.stopAll()
                         tick.update { it + 1 }
                     }
                 }
@@ -113,8 +117,8 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
             Spacer(Modifier.width(8.dp))
             Button(text = "Stop All When Idle") {
                 for (gradleDaemonsService in gradleDaemonsServices) {
-                    pluginScope.saga(gradleDaemonsService) {
-                        gradleDaemonsService.stopAll(whenIdle = true)
+                    pluginScope.saga(gradleDaemonsService.provider) {
+                        gradleDaemonsService.api.stopAll(whenIdle = true)
                         tick.update { it + 1 }
                     }
                 }
@@ -233,13 +237,13 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
     }
 }
 
-class DaemonItem(val info: DaemonInfo, service: GradleDaemonsService)
+class DaemonItem(val info: DaemonInfo, service: Service<GradleDaemonsApi>)
 
-private suspend fun <T : ServiceEntity<*>, K> rpcCall(service: T, call: suspend CoroutineScope.(T) -> K): K {
-    return withEntities(service) {
+private suspend fun <K> rpcCall(service: Service<GradleDaemonsApi>, call: suspend CoroutineScope.(GradleDaemonsApi) -> K): K {
+    return withEntities(service.provider) {
         durable {
             withoutCausality {
-                call(service)
+                call(service.api)
             }
         }
     }

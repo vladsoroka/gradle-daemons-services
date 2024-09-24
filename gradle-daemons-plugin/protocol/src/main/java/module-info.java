@@ -1,6 +1,5 @@
 module fleet.gradle.daemons.protocol {
-    requires fleet.rpc;
-    requires kotlinx.serialization.core;
+    requires fleet.protocol;
 
     exports fleet.gradle.daemons.protocol;
 }

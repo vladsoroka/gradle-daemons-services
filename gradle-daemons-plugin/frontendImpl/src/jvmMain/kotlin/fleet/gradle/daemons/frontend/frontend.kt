@@ -29,6 +29,7 @@ class DaemonsPlugin : Plugin<Unit> {
 
     override fun ContributionScope.load(pluginScope: PluginScope) {
         logger.trace { "Initialization of Gradle Daemons plugin started" }
+        register(DaemonsViewEntity)
         viewType(GradleDaemonsViewTypeId, Unit.serializer()) {
             displayName = GradleDaemonsViewName
             icon = IconKeys.Gradle
@@ -43,7 +44,7 @@ class DaemonsPlugin : Plugin<Unit> {
                 DefaultLocation { }
             }
             Open {
-                val entity = change { new(DaemonsViewEntity::class) {} }
+                val entity = change { DaemonsViewEntity.new {} }
                 View(entity) {
                     sharedLayoutId = SharedLayoutId(DaemonsViewEntity::class.toString())
                     setupToolClosingPolicy()

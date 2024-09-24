@@ -1,11 +1,14 @@
 package fleet.gradle.daemons.protocol
 
+import fleet.api.topology.ApiKey
 import fleet.rpc.RemoteApi
 import fleet.rpc.Rpc
+import fleet.rpc.remoteApiDescriptor
 import kotlinx.serialization.Serializable
 
 @Rpc
 interface GradleDaemonsApi : RemoteApi<Unit> {
+    companion object : ApiKey<GradleDaemonsApi> by ApiKey(remoteApiDescriptor())
     suspend fun listDaemons(includeStopped: Boolean): List<DaemonInfo>
     suspend fun stopAll(whenIdle: Boolean = false)
 }
