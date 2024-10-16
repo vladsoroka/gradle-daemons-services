@@ -19,8 +19,7 @@ private val logger by lazy { KLoggers.logger() }
 
 private const val GradleDaemonsViewName = "Gradle Daemons"
 
-//private val GradleDaemonsViewTypeId = ViewTypeId<Unit>("gradle-daemons")
-private val GradleDaemonsViewTypeId = ViewTypeId<Unit>("")
+private val GradleDaemonsViewTypeId = ViewTypeId<Unit>("gradle-daemons")
 
 class DaemonsPlugin : Plugin<Unit> {
     companion object : Plugin.Key<Unit>
@@ -57,6 +56,6 @@ class DaemonsPlugin : Plugin<Unit> {
                 }
             }
         }
-        reportedActions { Actions.values().map { it.id } }
+        reportedActions { Actions.entries.map { it.id } }
     }
 }

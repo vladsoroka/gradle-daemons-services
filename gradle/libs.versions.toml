@@ -1,17 +1,18 @@
 [versions]
-fleet-sdk = "0.5.236"
-rpc-compiler = "1.9.20-0.1"
-fleet-runtime = "1.41.79"
-fleet-runtime-min-version = "1.41.0"
+fleet-sdk = "0.6.237"
+rpc-compiler = "2.0.0-0.2"
+fleet-runtime = "1.42.68"
+fleet-runtime-min-version = "1.42.0"
 fleet-runtime-max-version = "1.8191.999"
 
 intellij-sdk = "2.0.1"
 intellij-instrumenting-compiler = "241.18034.82"
-intellij-runtime = "LATEST-TRUNK-SNAPSHOT" # 243-SNAPSHOT
+#intellij-runtime = "LATEST-TRUNK-SNAPSHOT"
+intellij-runtime = "243-SNAPSHOT"
 intellij-runtime-min-version = "243.0"
 intellij-runtime-max-version = "243.*"
 
-kotlin = "1.9.25"
+kotlin = "2.0.0"
 kotlinx-serialization = "1.6.3"
 
 [libraries]
