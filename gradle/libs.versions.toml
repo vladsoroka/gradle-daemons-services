@@ -1,11 +1,11 @@
 [versions]
 fleet-sdk = "0.6.237"
 rpc-compiler = "2.0.0-0.2"
-fleet-runtime = "1.42.68"
+fleet-runtime = "1.42.78"
 fleet-runtime-min-version = "1.42.0"
 fleet-runtime-max-version = "1.8191.999"
 
-intellij-sdk = "2.0.1"
+intellij-sdk = "2.1.0"
 intellij-instrumenting-compiler = "241.18034.82"
 #intellij-runtime = "LATEST-TRUNK-SNAPSHOT"
 intellij-runtime = "243-SNAPSHOT"
