@@ -25,6 +25,7 @@ import fleet.frontend.icons.IconKeys
 import fleet.frontend.ui.db.durableState
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
+import fleet.gradle.daemons.protocol.DaemonState.*
 import fleet.gradle.daemons.protocol.GradleDaemonsApi
 import fleet.kernel.plugins.PluginScope
 import fleet.kernel.saga
@@ -148,8 +149,9 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 textToMatchFn = { it.info.title() },
                 renderFn = { item, opts ->
                     defaultListCell(listItemOpts = opts, cellColors = { itemCellColors(it) }) { colors ->
+                        val daemonState = item.info.state
                         val iconKey =
-                            if (item.info.state == DaemonState.Busy) IconKeys.Plugins.Docker.Running
+                            if (daemonState == Busy || daemonState == StopRequested) IconKeys.Plugins.Docker.Running
                             else IconKeys.Plugins.Docker.Stopped
                         Icon(iconKey, size = DpSize(12.dp, 12.dp))
                         Spacer(Modifier.width(4.dp))
@@ -239,7 +241,10 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
 
 class DaemonItem(val info: DaemonInfo, service: Service<GradleDaemonsApi>)
 
-private suspend fun <K> rpcCall(service: Service<GradleDaemonsApi>, call: suspend CoroutineScope.(GradleDaemonsApi) -> K): K {
+private suspend fun <K> rpcCall(
+    service: Service<GradleDaemonsApi>,
+    call: suspend CoroutineScope.(GradleDaemonsApi) -> K
+): K {
     return withEntities(service.provider) {
         durable {
             withoutCausality {
