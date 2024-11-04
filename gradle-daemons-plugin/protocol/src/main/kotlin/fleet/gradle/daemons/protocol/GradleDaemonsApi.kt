@@ -36,13 +36,21 @@ sealed class DaemonState {
     @Serializable
     data object Canceled : DaemonState()
     @Serializable
-    data object StopRequested : DaemonState()
+    data object StopRequested : DaemonState() {
+        override fun toString(): String {
+            return "Stop Requested"
+        }
+    }
     @Serializable
     data object Stopped : DaemonState()
     @Serializable
     data object Broken : DaemonState()
     @Serializable
-    data class Unknown(val state: String) : DaemonState()
+    data class Unknown(val state: String) : DaemonState() {
+        override fun toString(): String {
+            return state
+        }
+    }
 }
 
 @Serializable
