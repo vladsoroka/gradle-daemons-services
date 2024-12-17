@@ -41,6 +41,7 @@ import noria.ui.components.MainDetail
 import noria.ui.components.list.ListViewOptions
 import noria.ui.components.list.SpeedSearchOptions
 import noria.ui.components.list.defaultListCell
+import noria.ui.components.list.defaultListItemSpacing
 import noria.ui.components.list.listModel
 import noria.ui.components.scroll
 import noria.ui.withModifier
@@ -144,7 +145,8 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
                 daemons,
                 options = ListViewOptions(
                     selectFirstItem = true,
-                    speedSearchOptions = SpeedSearchOptions.Default(filterResults = true)
+                    speedSearchOptions = SpeedSearchOptions.Default(filterResults = true),
+                    spacing = defaultListItemSpacing()
                 ),
                 textToMatchFn = { it.info.title() },
                 renderFn = { item, opts ->
