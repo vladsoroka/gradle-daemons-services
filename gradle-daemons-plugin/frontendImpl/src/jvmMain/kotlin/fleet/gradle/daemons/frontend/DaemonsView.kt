@@ -170,7 +170,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
             withModifier(Modifier.clip(RoundedCornerShape(6.dp))) {
                 MainDetail(
                     listModel = listModel,
-                    modifier = Modifier.background(theme[ThemeKeys.ToolBackground]),
+                    modifier = Modifier.background(theme[ThemeKeys.BackgroundSecondary]),
                     detailContent = { daemon, _: Any? ->
                         scroll {
                             NoriaSelectionContainer {
