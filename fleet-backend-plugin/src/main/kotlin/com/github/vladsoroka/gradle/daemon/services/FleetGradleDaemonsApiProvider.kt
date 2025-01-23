@@ -1,14 +1,14 @@
 package com.github.vladsoroka.gradle.daemon.services
 
-import fleet.backend.FleetServiceDescriptor
 import fleet.backend.FleetServiceProvider
+import fleet.backend.workspace.BackendServicesRegistration
 import fleet.backend.workspace.BackendWorkspace
 import fleet.backend.workspace.WorkspaceAwareApi
+import fleet.backend.workspace.register
 import fleet.gradle.daemons.protocol.DaemonExpirationStatus
 import fleet.gradle.daemons.protocol.DaemonInfo
 import fleet.gradle.daemons.protocol.DaemonState
 import fleet.gradle.daemons.protocol.GradleDaemonsApi
-import fleet.rpc.remoteApiDescriptor
 import fleet.util.logging.KLoggers
 import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.model.build.BuildEnvironment
@@ -22,12 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 private val logger by lazy { KLoggers.logger(FleetGradleDaemonsApiProvider::class) }
 
 class FleetGradleDaemonsApiProvider : FleetServiceProvider {
-    override fun getServices(workspace: BackendWorkspace): List<FleetServiceDescriptor> {
-        return listOf(
-            remoteApiDescriptor<GradleDaemonsApi>() to {
-                BackendGradleDaemonsApi(workspace)
-            }
-        )
+    override fun BackendServicesRegistration.contributeServices(workspace: BackendWorkspace) {
+        register(GradleDaemonsApi) {
+            BackendGradleDaemonsApi(workspace)
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 <idea-plugin>
-    <idea-version since-build="243.0" until-build="243.*" />
+    <idea-version since-build="251.0" until-build="251.*" />
     <id>com.github.vladsoroka.gradledaemonservices</id>
     <name>Gradle Daemon Services</name>
     <vendor>vladsoroka</vendor>

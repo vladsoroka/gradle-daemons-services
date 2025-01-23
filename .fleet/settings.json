@@ -1,26 +1,9 @@
 {
-    "internalMode": true,
     "plugins": [
         {
             "type": "add",
             "pluginName": "gradle.daemon.services"
         },
-        {
-            "type": "add",
-            "pluginName": "fleet.kotlin"
-        },
-        {
-            "type": "add",
-            "pluginName": "fleet.gradle"
-        },
-        {
-            "type": "add",
-            "pluginName": "fleet.toml"
-        },
-        {
-            "type": "add",
-            "pluginName": "fleet.git.frontend"
-        }
     ],
     "backend.maxHeapSizeMb": 1487
 }

@@ -1,6 +1,5 @@
 package fleet.gradle.daemons.frontend
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -18,14 +17,12 @@ import fleet.compose.foundation.text.selection.NoriaSelectionContainer
 import fleet.compose.theme.components.*
 import fleet.compose.theme.components.checkbox.Checkbox
 import fleet.compose.theme.keys.TextStyleKeys
-import fleet.compose.theme.keys.ThemeKeys
 import fleet.compose.theme.launchRestart
-import fleet.compose.theme.theme
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.ui.db.durableState
 import fleet.gradle.daemons.protocol.DaemonInfo
-import fleet.gradle.daemons.protocol.DaemonState
-import fleet.gradle.daemons.protocol.DaemonState.*
+import fleet.gradle.daemons.protocol.DaemonState.Busy
+import fleet.gradle.daemons.protocol.DaemonState.StopRequested
 import fleet.gradle.daemons.protocol.GradleDaemonsApi
 import fleet.kernel.plugins.PluginScope
 import fleet.kernel.saga
@@ -38,11 +35,7 @@ import noria.model.ActionId
 import noria.readNonReactive
 import noria.state
 import noria.ui.components.MainDetail
-import noria.ui.components.list.ListViewOptions
-import noria.ui.components.list.SpeedSearchOptions
-import noria.ui.components.list.defaultListCell
-import noria.ui.components.list.defaultListItemSpacing
-import noria.ui.components.list.listModel
+import noria.ui.components.list.*
 import noria.ui.components.scroll
 import noria.ui.withModifier
 import java.text.DateFormat
@@ -170,7 +163,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
             withModifier(Modifier.clip(RoundedCornerShape(6.dp))) {
                 MainDetail(
                     listModel = listModel,
-                    modifier = Modifier.background(theme[ThemeKeys.BackgroundSecondary]),
+//                    modifier = Modifier.background(theme[ThemeKeys.BackgroundSecondary]),
                     detailContent = { daemon, _: Any? ->
                         scroll {
                             NoriaSelectionContainer {
