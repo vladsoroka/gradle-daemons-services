@@ -1,7 +1,7 @@
 [versions]
-fleet-sdk = "0.6.237"
+fleet-sdk = "0.6.245"
 rpc-compiler = "2.0.0-0.2"
-fleet-runtime = "1.45.162"
+fleet-runtime = "1.45.163"
 fleet-runtime-min-version = "1.45.0"
 fleet-runtime-max-version = "1.8191.999"
 

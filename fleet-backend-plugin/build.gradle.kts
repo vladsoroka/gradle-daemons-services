@@ -44,6 +44,7 @@ kotlin {
 }
 
 intellijPlatform {
+    buildSearchableOptions = false
     pluginConfiguration {
         ideaVersion {
             sinceBuild = libs.versions.intellij.runtime.min.version
