@@ -2,7 +2,9 @@ package fleet.gradle.daemons.frontend
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,11 +15,9 @@ import com.jetbrains.rhizomedb.Entity
 import com.jetbrains.rhizomedb.EntityType
 import fleet.common.topology.Service
 import fleet.common.topology.all
-import fleet.compose.foundation.text.selection.NoriaSelectionContainer
 import fleet.compose.theme.components.*
 import fleet.compose.theme.components.checkbox.Checkbox
 import fleet.compose.theme.keys.TextStyleKeys
-import fleet.compose.theme.launchRestart
 import fleet.frontend.icons.IconKeys
 import fleet.frontend.ui.db.durableState
 import fleet.gradle.daemons.protocol.DaemonInfo
@@ -72,7 +72,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
     }
     val tick = state { 0 }
     val showStoppedState = durableState(daemonsViewEntity, "daemonsList#show_stopped") { false }
-    launchRestart(tick.read(), showStoppedState.read()) {
+    LaunchedEffect(tick.read(), showStoppedState.read()) {
         val daemonInfos = mutableListOf<DaemonInfo>()
         gradleDaemonsServices.forEach { daemonsService ->
             withEntities(daemonsViewEntity) {
@@ -166,7 +166,7 @@ internal fun NoriaContext.renderDaemonsView(daemonsViewEntity: DaemonsViewEntity
 //                    modifier = Modifier.background(theme[ThemeKeys.BackgroundSecondary]),
                     detailContent = { daemon, _: Any? ->
                         scroll {
-                            NoriaSelectionContainer {
+                            SelectionContainer {
                                 val lastBusyDate = dateFormat.format(Date(daemon.info.lastBusy))
                                 Column(modifier = Modifier.padding(8.dp)) {
                                     Column {
