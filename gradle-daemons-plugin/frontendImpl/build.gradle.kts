@@ -14,6 +14,10 @@ kotlin {
     jvmToolchain(21)
 }
 
+dependencies {
+    commonMainApi(project(":gradle-daemons-plugin:protocol"))
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)

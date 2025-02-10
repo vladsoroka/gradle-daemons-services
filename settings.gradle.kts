@@ -2,7 +2,6 @@ rootProject.name = "gradle-daemons-services"
 
 include("gradle-daemons-plugin")
 include("gradle-daemons-plugin:protocol")
-include("gradle-daemons-plugin:commonImpl")
 include("gradle-daemons-plugin:frontendImpl")
 include("fleet-backend-plugin")
 
