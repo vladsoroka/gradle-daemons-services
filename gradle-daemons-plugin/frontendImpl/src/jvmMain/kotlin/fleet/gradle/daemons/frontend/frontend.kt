@@ -15,7 +15,7 @@ import fleet.navigation.common.api.ViewTypeId
 import fleet.util.logging.KLoggers
 import kotlinx.serialization.builtins.serializer
 
-private val logger by lazy { KLoggers.logger() }
+private val logger by lazy { KLoggers.logger(DaemonsPlugin::class) }
 
 private const val GradleDaemonsViewName = "Gradle Daemons"
 
